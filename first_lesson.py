@@ -16,9 +16,9 @@ a is b  #перевірка по ід, чи займають об*єкти од�
 
 import sys
 
-print(sys.getrefcount(1))  #показує скільки посилань на 1
+print(sys.getrefcount(1))  # show how many references to '1'
 
-import gc  #зборщик мусора
+import gc  # garbage collector
 for i in range(10):
     d = {}
     d[0] = d
@@ -44,7 +44,7 @@ print(dir(builtins))
 print( 10/4**3.0)
 
 # raise  remember
-'''
+
 import random
 i = 0
 s = random.randint(1, 10)
@@ -71,7 +71,6 @@ print(divmod(5,6))      #ціла частина і остача від діле
 #python
 
 
-
 #--------------factorial-------
 def text_prompt(msg):
     try:
@@ -89,8 +88,7 @@ if n >= 0:
     print(res)
 else:
     print('error! number < 0 do not have fact !')
-'''
-'''
+
 #------------ triangle ---------
 def text_prompt(msg):
     try:
@@ -114,18 +112,14 @@ if a > 0 and b > 0 and c > 0:
 else:
     print('not triangle')
 
-'''
-'''
 #----------------fibonachi--------
-
 L = [0,1]
 n = int(input('enter n:'))
 for i in range(n):
     k = L[-1] + L[-2]
     L.append(k)
 print(L[n])
-'''
-'''
+
 #----------palindroms--------------
 def test_prompt(msg):
     try:
@@ -161,7 +155,7 @@ for i in range(a, b + 1):
     if (int(x[0]) + int(x[1]) + int(x[2])) == (int(x[3]) + int(x[4]) + int(x[5])):
         j += 1
 print(j)
-'''
+
 #------------decoding------------
 KEY = 'aaaaabbbbbabbbaabbababbaaababaab'
 alphabet = 'abcdefghijklmnopqrstuvwxyz'
@@ -295,6 +289,7 @@ print(sonya.has_grand())
 nata = Student_KPI('Natalka', 1995, [3,4,5,5,4,5,])
 print(nata.has_grand())
 
+#-----------------------------------
 import math
 
 class Sphere:
