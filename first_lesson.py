@@ -294,3 +294,140 @@ print(sonya.has_grand())
 
 nata = Student_KPI('Natalka', 1995, [3,4,5,5,4,5,])
 print(nata.has_grand())
+
+import math
+
+class Sphere:
+    radius = 1
+    x_0 = 0
+    y_0 = 0
+    z_0 = 0
+
+    def __init__(self,r = 1., x = 0., y = 0., z = 0.):
+        self.radius = r
+        self.x_0 = x
+        self.y_0 = y
+        self.z_0 = z
+
+    def get_volume(self):
+        return 4.0/3 * math.pi * pow(self.radius, 3)
+
+    def get_square(self):
+        return 4 * math.pi * pow(self.radius, 2)
+
+    def get_radius(self):
+        return self.radius
+
+    def get_center(self):
+        return (self.x_0, self.y_0, self.z_0)
+
+    def set_radius(self, r):
+        self.radius = r
+
+    def set_center(self, x, y, z):
+        self.x_0 = x
+        self.y_0 = y
+        self.z_0 = z
+
+    def is_point_inside(self, x, y, z):
+        if self.x_0 - x <= self.radius and self.y_0 - y <= self.radius and self.z_0 - z <= self.radius:
+            return True
+        else:
+            return False
+
+s = Sphere(0.5)
+print(s.get_center())
+print(s.get_volume())
+print(s.is_point_inside(0, -1.5, 0))
+s.set_radius(1.6)
+print(s.is_point_inside(0, -1.5, 0))
+print(s.get_radius())
+
+
+#--------------------class student prometheus --------------
+class Student_prom():
+    name = ''
+    marks = {}
+    conf = {}
+
+
+    def __init__(self, name, conf):
+        self.name = name
+        self.conf = conf
+        self.marks = {}
+        self.marks['exam'] = 0
+        self.marks['labs'] = []
+        for i in range(self.conf['lab_num']):
+            self.marks['labs'].append(0)
+
+    def make_lab(self, mark , number = None):
+        mark = min(mark, self.conf['lab_max'])    # m cant be more than lab_max
+        if number is None:                       # if n is not given; find the first task with no mark, set the mark and reload m
+            if 0 in self.marks['labs']:
+                self.marks['labs'][self.marks['labs'].index(0)] = mark
+        elif number >= 0 and number < len(self.marks['labs']):        #if the task with n exist, reload m
+                self.marks['labs'][number] = mark
+        return self
+
+
+    def make_exam(self,mark):
+        self.marks['exam'] = min(mark, self.conf['exam_max'])
+        return self
+
+    def is_certified(self):
+        total_max = self.conf['exam_max'] + self.conf['lab_max'] * self.conf['lab_num']     # possible maximum
+        sum = 1.0* self.marks['exam']
+        for i in range(len(self.marks['labs'])):
+            sum = sum + min(self.conf['lab_max'], self.marks['labs'][i])
+        return (sum, sum >= total_max * self.conf['k'])
+
+oleg = Student_prom('Oleg', {'exam_max': 30, 'lab_max': 7, 'lab_num': 10, 'k': 0.61})
+oleg.make_lab(1)  # labs: 1 0 0 0 0 0 0 0 0 0, exam: 0
+oleg.make_lab(8,0)  # labs: 7 0 0 0 0 0 0 0 0 0, exam: 0
+oleg.make_lab(1) # labs: 7 1 0 0 0 0 0 0 0 0, exam: 0
+oleg.make_lab(10,7) # labs: 7 1 0 0 0 0 0 7 0 0, exam: 0
+oleg.make_lab(4,1) # labs: 7 4 0 0 0 0 0 7 0 0, exam: 0
+oleg.make_lab(5)  # labs: 7 4 5 0 0 0 0 7 0 0, exam: 0
+oleg.make_lab(6.5)  # labs: 7 4 5 6.5 0 0 0 7 0 0, exam: 0
+oleg.make_exam(32) # labs: 7 4 5 6.5 0 0 0 7 0 0, exam: 30
+print(oleg.is_certified() )# (59.5, False)
+oleg.make_lab(7,1) # labs: 7 7 5 6.5 0 0 0 7 0 0, exam: 30
+print(oleg.is_certified()) # (62.5, True)
+
+
+#---------------class SuperStr-------------------------
+
+class SuperStr(str):
+
+    def __init__(self, s):
+        self.s = s
+
+    def is_repeatance(self,subs):
+        if type(subs) == str and len(subs) != 0:
+            multiply = int(len(self.s) / len(subs))
+            if self.s == subs * multiply:
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    def is_palindrom(self):
+        if self.s.lower().replace(' ', '') == self.s[::-1].lower().replace(' ', ''):
+            return True
+        else:
+            return False
+
+s = SuperStr('123123123123')
+print(s.is_repeatance('123')) # True
+print(s.is_repeatance('123123')) # True
+print(s.is_repeatance('123123123123')) # True
+print(s.is_repeatance('12312')) # False
+print(s.is_repeatance(123)) # False
+print(s.is_palindrom()) # False
+print(s) # 123123123123 (рядок)
+print(int(s)) # 123123123123 (ціле число)
+print(s + 'qwe') # 123123123123qwe
+p = SuperStr('123_321')
+print(p.is_palindrom()) # True
+
